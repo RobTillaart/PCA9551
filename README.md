@@ -15,11 +15,8 @@ Arduino library for PCA9551 I2C 8 bit PWM LED driver, 8 channel.
 
 This experimental library is to control the I2C PCA9551 PWM extender.
 
--- CHECK ALL BELOW --
-
-
-This device has two possible hardcoded I2C addresses 0x62 and 0x63, 
-see table below.
+This device has seven possible I2C addresses 0x60 to 0x67, 
+by means of 3 address lines.
 If you need to connect more PCA9551 devices to a single I2C bus you 
 need a I2C multiplexer like https://github.com/RobTillaart/TCA9548.
 
@@ -39,14 +36,6 @@ Maximum output sink current is 25 mA per bit and 100 mA per package.
 
 Power-On Reset (POR) initializes the registers to their default state, 
 all zeroes, causing the bits to be set HIGH (LED off).
-
-
-#### I2C adresses
-
-|  type        |  Address  |
-|:-------------|:---------:|
-|  PCA9551/01  |  0x62     | 
-|  PCA9551/02  |  0x63     |
 
 
 #### Related
@@ -72,14 +61,14 @@ Follow up series
 #### Constructor
 
 - **PCA9551(uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor with I2C device address,  
-Address = 0x62 or 0x63 and optional the Wire interface as parameter.
+Address = 0x60 .. 0x67 and optional the Wire interface as parameter.
 - **bool begin()** initializes the library after startup.
 Returns true if device address is available on I2C bus.
 - **bool begin(int sda, int scl)**
 idem, ESP32 ESP8266 only.
 - **bool isConnected()** checks if address is available on I2C bus.
 - **uint8_t getAddress()** returns I2C address.
-- **uint8_t channelCount()** returns the number of channels = 4.
+- **uint8_t channelCount()** returns the number of channels = 8.
 
 
 #### Input
@@ -181,29 +170,12 @@ To be elaborated in the source code.
 #### Must
 
 - improve documentation
-- test test test
+- keep in sync with PCA9553
 
 #### Should
 
-- **reset()**  power on reset...
-- GPIO modi pins
-  - **pinMode()**
-  - **digitalWrite()**
-  - **digitalRead()**
-- improve error handling
-  - return values, where etc.
-- defines for sources
-- add examples
-  - gauss curve?
-  
-
 #### Could
 
-#### Wont (on request)
-
-- no usage of autoincrement register
-- percent interface for PWM
-- time interface for prescaler
-- default setup in begin (what how)
+#### Wont
 
 

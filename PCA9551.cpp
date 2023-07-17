@@ -2,8 +2,8 @@
 //    FILE: PCA9551.cpp
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-16
-// VERSION: 0.2.0
-// PURPOSE: Arduino library for for I2C PCA9551 4 channel PWM
+// VERSION: 0.1.0
+// PURPOSE: Arduino library for for I2C PCA9551 8 channel PWM
 //     URL: https://github.com/RobTillaart/PCA9551
 
 
@@ -136,11 +136,16 @@ bool PCA9551::setLEDSource(uint8_t led, uint8_t source)
   if (led >= _channelCount) return false;
   if (source > 3) return false;
 
-  uint8_t ledSelect = readReg(PCA9551_LS0);
+  uint8_t reg = PCA9551_LS0;
+  if (led > 3)
+  {
+    reg = PCA9551_LS1;
+    led -= 4;
+  }
+  uint8_t ledSelect = readReg(reg);
   ledSelect &= ~(0x03 << (led * 2));
   ledSelect |= (source << (led * 2));
-
-  writeReg(PCA9551_LS0, ledSelect);
+  writeReg(reg, ledSelect);
   return true;
 }
 
@@ -149,7 +154,13 @@ uint8_t PCA9551::getLEDSource(uint8_t led)
 {
   if (led >= _channelCount) return PCA9551_ERROR;
 
-  uint8_t ledSelect = readReg(PCA9551_LS0);
+  uint8_t reg = PCA9551_LS0;
+  if (led > 3)
+  {
+    reg = PCA9551_LS1;
+    led -= 4;
+  }
+  uint8_t ledSelect = readReg(reg);
   uint8_t source = (ledSelect >> (led * 2)) & 0x03;
   return source;
 }

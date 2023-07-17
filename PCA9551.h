@@ -4,7 +4,7 @@
 //  AUTHOR: Rob Tillaart
 //    DATE: 2023-07-16
 // VERSION: 0.1.0
-// PUPROSE: Arduino library for for I2C PCA9551 4 channel PWM
+// PUPROSE: Arduino library for for I2C PCA9551 8 channel PWM
 //     URL: https://github.com/RobTillaart/PCA9551
 
 
@@ -22,6 +22,7 @@
 #define PCA9551_PSC1        0x03
 #define PCA9551_PWM1        0x04
 #define PCA9551_LS0         0x05
+#define PCA9551_LS1         0x06
 
 
 //  LED SOURCE MASKS
@@ -71,7 +72,7 @@ public:
 
 
   //  LED SOURCE SELECTOR
-  //  led = 0..3
+  //  led = 0..7
 
   //  source:
   //    00 = output is set LOW (LED on)
