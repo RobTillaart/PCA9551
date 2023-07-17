@@ -15,6 +15,8 @@ Arduino library for PCA9551 I2C 8 bit PWM LED driver, 8 channel.
 
 This experimental library is to control the I2C PCA9551 PWM extender.
 
+It is derived from the PCA9553 library and kept in sync if possible.
+
 This device has seven possible I2C addresses 0x60 to 0x67, 
 by means of 3 address lines.
 If you need to connect more PCA9551 devices to a single I2C bus you 
@@ -71,13 +73,14 @@ idem, ESP32 ESP8266 only.
 - **uint8_t channelCount()** returns the number of channels = 8.
 
 
-#### Input
+#### GPIO
 
-- **getInput()** read current output levels.
-Only the lower 4 bits are used.
+- **uint8_t getInput()** read all current output levels.
+- **void digitalWrite(uint8_t led, uint8_t val)** set LED  pin HIGH or LOW.
+- **uint8_t digitalRead(uint8_t led)** read current state of LED pin.
 
 
-#### Prescalers Frequency
+#### Prescaler Frequency
 
 Get and set the pre-scaler of the PWM generator.
 
@@ -111,7 +114,8 @@ Some "magic" pre-scalers.  (to be confirmed).
 
 Get and set the duty cycle of the PWM generator.
 
-- **void setPWM(uint8_t gen, uint8_t psc = 128)** set PWM for generator, default 128.
+- **void setPWM(uint8_t gen, uint8_t psc = 128)** set PWM for generator,
+default value = 128.
 - **uint8_t getPWM(uint8_t gen)** get the set value.
 
 gen = 0 or 1

@@ -1,7 +1,7 @@
 //
 //    FILE: PCA9551.cpp
 //  AUTHOR: Rob Tillaart
-//    DATE: 2023-07-16
+//    DATE: 2023-07-17
 // VERSION: 0.1.0
 // PURPOSE: Arduino library for for I2C PCA9551 8 channel PWM
 //     URL: https://github.com/RobTillaart/PCA9551
