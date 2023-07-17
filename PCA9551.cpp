@@ -76,6 +76,12 @@ uint8_t PCA9551::getInput()
 }
 
 
+void PCA9551::pinMode(uint8_t led, uint8_t mode)
+{
+  if (mode != OUTPUT) setLEDSource(led, 1);
+}
+
+
 void PCA9551::digitalWrite(uint8_t led, uint8_t val)
 {
   if (val == LOW) setLEDSource(led, 0);
