@@ -70,14 +70,16 @@ Returns true if device address is available on I2C bus.
 idem, ESP32 ESP8266 only.
 - **bool isConnected()** checks if address is available on I2C bus.
 - **uint8_t getAddress()** returns I2C address.
-- **uint8_t channelCount()** returns the number of channels = 8.
+- **uint8_t outputCount()** returns the number of channels = 8.
+- **uint8_t reset()**
 
 
 #### GPIO
 
 - **uint8_t getInput()** read all current output levels.
-- **void digitalWrite(uint8_t led, uint8_t val)** set LED  pin HIGH or LOW.
-- **uint8_t digitalRead(uint8_t led)** read current state of LED pin.
+- **void pinMode(uint8_t pin, uint8_t mode)** set output pin to INPUT or OUTPUT.
+- **void digitalWrite(uint8_t pin, uint8_t value)** set output pin HIGH or LOW.
+- **uint8_t digitalRead(uint8_t pin)** read current state of output pin.
 
 
 #### Prescaler Frequency
@@ -95,7 +97,7 @@ This gives the output a blink range of 0.172 Hz to 44 Hz.
 
 Some "magic" pre-scalers.  (to be confirmed).
 
-|  psc  |  period  |  frequency  |
+|  psc  |  Period  |  Frequency  |
 |:-----:|:--------:|:-----------:|
 |    0  |  0.0227  |  44.00 Hz   |
 |    1  |  0.0455  |  22.00 Hz   |
@@ -114,7 +116,7 @@ Some "magic" pre-scalers.  (to be confirmed).
 
 Get and set the duty cycle of the PWM generator.
 
-- **void setPWM(uint8_t gen, uint8_t psc = 128)** set PWM for generator,
+- **void setPWM(uint8_t gen, uint8_t psc = 128)** set PWM for generator, 
 default value = 128.
 - **uint8_t getPWM(uint8_t gen)** get the set value.
 
@@ -122,7 +124,7 @@ gen = 0 or 1
 
 The duty cycle of ```BLINK = (256 - PWM) / 256```
 
-|  pwm  |  duty cycle  |
+|  pwm  |  Duty Cycle  |
 |:-----:|:------------:|
 |    0  |     0%       |
 |   64  |    25%       |
@@ -133,23 +135,35 @@ The duty cycle of ```BLINK = (256 - PWM) / 256```
 Note: one might need a Gamma brightness correction - https://github.com/RobTillaart/GAMMA
 
 
-#### LED source selector
+#### Output Mode
 
-- **bool setLEDSource(uint8_t led, uint8_t source)** set the source 
-of the selected led.
-  - led == 0..7, source == 0..3, see table below
-  - returns false if parameter is out of range.
-- **uint8_t getLEDSource(uint8_t led)** returns current setting.
-  - led == 0..7
-  - return source, see table below.
-  - returns 0xFF if led parameter out of range. 
+- **uint8_t setOutputMode(uint8_t pin, uint8_t mode)** set the mode for 
+the selected output pin to one of 4 modi operandi.
+See table below.
+  - pin == 0..7, mode == 0..3, see table below.
+  - returns 0 if OK
+  - returns error code if parameter is out of range.
+- **uint8_t getOutputMode(uint8_t led)** returns current setting.
+  - pin == 0..7
+  - returns mode, see table below.
+  - returns error code if parameter is out of range. 
 
-|  source  |  output              |
-|:--------:|:---------------------|
-|    00    |  is set LOW (LED on)
-|    01    |  is set high-impedance (LED off; default)
-|    10    |  blinks at PWM0 rate
-|    11    |  blinks at PWM1 rate
+|  Define             |  Value  |  Output pin          |
+|:--------------------|:-------:|:---------------------|
+|  PCA9551_MODE_LOW   |    0    |  is set LOW (LED on)
+|  PCA9551_MODE_HIGH  |    1    |  is set high-impedance (LED off; default)
+|  PCA9551_MODE_PWM0  |    2    |  blinks at PWM0 rate
+|  PCA9551_MODE_PWM1  |    3    |  blinks at PWM1 rate
+
+
+#### Power On Reset
+
+The PCA9551 will keep its settings as long as it is powered on. 
+This means it can start with an previous configuration when uploading 
+two different sketches short after each other.
+
+To handle this the library has a **reset()** function which sets
+the device in the Power On state.
 
 
 #### Error codes
@@ -161,12 +175,10 @@ These are kept similar to PCA9635 et al error codes.
 |  PCA9551_OK             |   0x00  |  Everything went well
 |  PCA9551_ERROR          |   0xFF  |  Generic error
 |  PCA9551_ERR_WRITE      |   0xFE  |
-|  PCA9551_ERR_CHAN       |   0xFD  |
-|  PCA9551_ERR_MODE       |   0xFC  |
+|  PCA9551_ERR_CHAN       |   0xFD  |  output pin out of range / channel error
+|  PCA9551_ERR_MODE       |   0xFC  |  mode parameter out of range.
 |  PCA9551_ERR_REG        |   0xFB  |
 |  PCA9551_ERR_I2C        |   0xFA  |
-
-To be elaborated in the source code.
 
 
 ## Future
