@@ -167,10 +167,10 @@ uint8_t PCA9551::setOutputMode(uint8_t pin, uint8_t mode)
   }
 
   uint8_t reg = PCA9551_LS0;
-  if (led > 3)
+  if (pin > 3)
   {
     reg = PCA9551_LS1;
-    led -= 4;
+    pin -= 4;
   }
   uint8_t ledSelect = readReg(reg);
   ledSelect &= ~(0x03 << (pin * 2));
@@ -189,10 +189,10 @@ uint8_t PCA9551::getOutputMode(uint8_t pin)
   }
 
   uint8_t reg = PCA9551_LS0;
-  if (led > 3)
+  if (pin > 3)
   {
     reg = PCA9551_LS1;
-    led -= 4;
+    pin -= 4;
   }
   uint8_t ledSelect = readReg(reg);
   uint8_t mode = (ledSelect >> (pin * 2)) & 0x03;
