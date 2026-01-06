@@ -31,6 +31,8 @@ connected, or if it is set to ON or OFF.
 The output channels can also be used as generic GPIO, however that
 is not implemented in the first release.
 
+Feedback as always is welcome.
+
 
 ### From datasheet
 
@@ -71,7 +73,7 @@ The user has to call **Wire.begin()** and can optionally set the Wire pins
 before calling **begin()**.
 
 
-#### Related
+### Related
 
 - https://github.com/RobTillaart/PCA9551  (8 channel)
 - https://github.com/RobTillaart/PCA9552  (16 channel)
@@ -87,9 +89,8 @@ Follow up series
 
 ### Address
 
-This device has seven possible I2C addresses 0x60 to 0x67, 
+This device has eight possible I2C addresses 0x60 to 0x67, 
 by means of 3 address lines.
-
 
 ### I2C multiplexing
 
@@ -116,7 +117,7 @@ too if they are behind the multiplexer.
 ```
 
 
-#### Constructor
+### Constructor
 
 - **PCA9551(uint8_t deviceAddress, TwoWire \*wire = &Wire)** Constructor with I2C device address,  
 Address = 0x60 .. 0x67 and optional the Wire interface as parameter.
@@ -128,7 +129,7 @@ Returns true if device address is available on I2C bus.
 - **uint8_t reset()** idem.
 
 
-#### GPIO
+### GPIO
 
 - **uint8_t getInput()** read all current output levels.
 - **void pinMode1(uint8_t pin, uint8_t mode)** set output pin to INPUT or OUTPUT.
@@ -136,7 +137,7 @@ Returns true if device address is available on I2C bus.
 - **uint8_t read1(uint8_t pin)** read current state of output pin.
 
 
-#### Prescaler Frequency
+### Prescaler Frequency
 
 Get and set the pre-scaler of the PWM generator.
 
@@ -166,7 +167,7 @@ Some "magic" pre-scalers.  (to be confirmed).
 |  255  |  5.818   |  0.172 Hz   |
 
 
-#### PWM
+### PWM
 
 Get and set the duty cycle of the PWM generator.
 
@@ -189,7 +190,7 @@ The duty cycle of ```BLINK = (256 - PWM) / 256```
 Note: one might need a Gamma brightness correction - https://github.com/RobTillaart/GAMMA
 
 
-#### Output Mode
+### Output Mode
 
 - **uint8_t setOutputMode(uint8_t pin, uint8_t mode)** set the mode for 
 the selected output pin to one of 4 modi operandi.
@@ -210,7 +211,7 @@ See table below.
 |  PCA9551_MODE_PWM1  |    3    |  blinks at PWM1 rate
 
 
-#### Power On Reset
+### Power On Reset
 
 The PCA9551 will keep its settings as long as it is powered on. 
 This means it can start with an previous configuration when uploading 
@@ -220,7 +221,7 @@ To handle this the library has a **reset()** function which sets
 the device in the Power On state.
 
 
-#### Error codes
+### Error codes
 
 These are kept similar to PCA9635 et al error codes.
 
