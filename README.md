@@ -16,14 +16,11 @@ Arduino library for PCA9551 I2C 8 bit PWM LED driver, 8 channel.
 
 ## Description
 
-This experimental library is to control the I2C PCA9551 PWM extender.
+**Experimental**
+
+This Arduino library is to control the I2C PCA9551 PWM extender.
 
 It is derived from the PCA9553 library and kept in sync if possible.
-
-This device has seven possible I2C addresses 0x60 to 0x67, 
-by means of 3 address lines.
-If you need to connect more PCA9551 devices to a single I2C bus you 
-need a I2C multiplexer like https://github.com/RobTillaart/TCA9548.
 
 The device has two PWM "generators", 0 and 1, and one can set the 
 duty cycle and the frequency by means of a pre-scaler. 
@@ -35,7 +32,7 @@ The output channels can also be used as generic GPIO, however that
 is not implemented in the first release.
 
 
-#### From datasheet
+### From datasheet
 
 Maximum output sink current is 25 mA per bit and 100 mA per package.
 
@@ -43,7 +40,7 @@ Power-On Reset (POR) initializes the registers to their default state,
 all zeroes, causing the bits to be set HIGH (LED off).
 
 
-#### 0.3.0 Breaking change
+### 0.3.0 Breaking change
 
 The version 0.3.0 has breaking changes in the interface. 
 The rationale is that the programming environment of the **Arduino ESP32 S3** 
@@ -65,7 +62,7 @@ The following library functions have been renamed:
 |  digitalWrite()  |  write1()    |
 
 
-#### 0.2.0 Breaking change
+### 0.2.0 Breaking change
 
 Version 0.2.0 introduced a breaking change.
 You cannot set the pins in **begin()** any more.
@@ -85,6 +82,31 @@ Follow up series
 - https://github.com/RobTillaart/PCA9635  (16 channel)
 - https://github.com/RobTillaart/PCA9685_RT  (16 channel)
 
+
+## I2C
+
+### Address
+
+This device has seven possible I2C addresses 0x60 to 0x67, 
+by means of 3 address lines.
+
+
+### I2C multiplexing
+
+Sometimes you need to control more devices than possible with the default
+address range the device provides.
+This is possible with an I2C multiplexer e.g. TCA9548 which creates up
+to eight channels (think of it as I2C subnets) which can use the complete
+address range of the device.
+
+Drawback of using a multiplexer is that it takes more administration in
+your code e.g. which device is on which channel.
+This will slow down the access, which must be taken into account when
+deciding which devices are on which channel.
+Also note that switching between channels will slow down other devices
+too if they are behind the multiplexer.
+
+- https://github.com/RobTillaart/TCA9548
 
 
 ## Interface
